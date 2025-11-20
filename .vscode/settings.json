@@ -4,6 +4,7 @@
         "onefile",
         "pyinstaller",
         "pytest",
+        "PYTHONPATH",
         "venv"
     ]
 }
