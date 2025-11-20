@@ -1,9 +1,10 @@
 name: Simple Package — Sequential macOS arm64 & Windows x64
 
 on:
-  workflow_dispatch: # manual trigger
+  workflow_dispatch: # you can also manually trigger this workflow
   push:
-    tags: ["v*"]
+    branches:
+      - main
 
 jobs:
   build-macos-arm64:

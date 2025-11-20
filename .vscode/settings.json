@@ -5,6 +5,7 @@
         "pyinstaller",
         "pytest",
         "PYTHONPATH",
+        "softprops",
         "venv"
     ]
 }
