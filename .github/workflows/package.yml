@@ -12,7 +12,6 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@v4
-
       - name: Show runner arch
         run: uname -m || true
       - name: Setup Python

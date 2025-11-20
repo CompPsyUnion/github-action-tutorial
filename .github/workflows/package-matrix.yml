@@ -3,9 +3,8 @@ env:
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
 
 on:
-  workflow_dispatch:
-  push:
-    tags: ["v*"]
+  release:
+    types: [published]
 
 jobs:
   package:
@@ -16,6 +15,8 @@ jobs:
         python-version: [3.8, 3.11]
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -33,3 +34,13 @@ jobs:
         with:
           name: hello-${{ matrix.os }}-${{ matrix.python-version }}
           path: dist/hello-${{ matrix.os }}-${{ matrix.python-version }}*
+
+      - name: Upload artifact to GitHub Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/hello-${{ matrix.os }}-${{ matrix.python-version }}*
+          tag_name: ${{ github.event.release.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
