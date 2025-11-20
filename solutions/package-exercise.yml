@@ -67,5 +67,6 @@ jobs:
       # - name: Upload Windows artifact
       #   uses: actions/upload-artifact@v4
       #   with:
-      #     name: hello-windows-x64.exe
-      #     path: # TODO: Specify the path to the Windows build artifact here, it is a file with .exe extension
+      #     name: hello-windows-x64
+      #     path: # TODO: Specify the path to the Windows build artifact here.
+      # it is a file with .exe extension named by you under `dist/`, generated in Exercise 2
