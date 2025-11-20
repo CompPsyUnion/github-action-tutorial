@@ -1,29 +1,71 @@
 # Github Action Tutorial
 
+## Quick Start
+
+In our GitHub Repo Website, click "Use this template" and choose "Create a new Repository" option to create a copy of this repo of your own. Do as the image below:
+
+![create-repo-btn](./assets/images/create-repo-btn.png)
+
+Give your new repository a name and description as you like, better make sure it is public, then click the "Create repository" button below.
+
+![create-repo](./assets/images/create-repo.png)
+
+Then you will be redirected to your newly created repository. Wait a moment, and you may see your repository's web page fully displayed. Click the green "Code" button, and then choose "Codespaces" > "Create codespace on main" to start coding directly in GitHub Codespaces. Do as the image below:
+
+![alt text](./assets/images/create-cs.png)
+
+Then, you can start to explore the code and workflows directly in the online environment without any local setup.
+
+You may continue to read the rest of this README.md file in your online workspace to understand the repository structure and the workflows defined in `.github/workflows/`, and engage with us.
+
+> If you prefer to work locally, you can also clone the repository to your local machine and keep following the instructions below.
+>
+> DO NOT clone the repository directly from our GitHub organisation if you want to make changes and push back to your own copy of the repository. Always create a new repository from the template first.
+
+## Repository Overview
+
 A minimal Python template repository for GitHub Actions demonstrations. This template includes tests (pytest) and autopep8.
 
 Structure:
 
 ```text
-app/
- └─ hello.py
-tests/
- └─ test_hello.py
-requirements.txt
-.github/
- └─ workflows/
-    ├─ test.yml
-    ├─ package.yml
-    └─ package-matrix.yml
+.
+├── LICENSE
+├── README.md
+├── .github
+│   └── workflows
+│       ├── package-matrix.yml
+│       ├── package.yml
+│       └── test.yml
+├── .gitignore
+├── app
+│   ├── __init__.py
+│   └── hello.py
+├── assets
+│   └── images
+│       ├── open-in-workspace.png
+│       └── workspace-structure.png
+├── requirements.txt
+├── solutions
+│   ├── package-exercise-original.yml
+│   └── package.yml
+└── tests
+    └── test_hello.py
 ```
 
-This example includes a package workflow; you'll implement it as a hands-on exercise.
+![workflow-structure](assets/images/workspace-structure.png)
+
+This example includes a package workflow named `package.yml`; you'll implement it as a hands-on exercise later.
 
 ## Reading a simple workflow - test.yml
 
 ### First to know: about YAML syntax
 
-YAML is a human-friendly data serialization standard for all programming languages. It is commonly used for configuration files and in applications where data is being stored or transmitted.
+![yaml](./assets/images/yaml.png)
+
+YAML is a human-friendly data serialization standard for all programming languages. It is commonly used for configuration files and in applications where data is being stored or transmitted. Github Actions workflow files are written in YAML format (\*.yml files).
+
+To store and let GitHub Actions know how to run your workflows, you need to understand some basic YAML syntax first. Here are some key points to get you started quickly:
 
 - Key-Value Pairs: Data is represented as key-value pairs, separated by a colon and a space (`key: value`).
 
@@ -56,7 +98,7 @@ YAML is a human-friendly data serialization standard for all programming languag
     push:
   ```
 
-- Lists: Lists are denoted by a hyphen and a space (`- item`). It can also be defined in-line using square brackets (`[item1, item2]`).
+- Lists: List items are denoted by a hyphen and a space (`- item`). It can also be defined in-line using square brackets (`[item1, item2]`).
 
   ```yaml
   branches:
@@ -99,32 +141,43 @@ YAML is a human-friendly data serialization standard for all programming languag
 
   ```yaml
   # This is a comment. It looks awesome.
+  # It is a good habit to add comments in your GitHub Actions workflow files
   ```
 
 **Congrats!** You now have a basic understanding of YAML syntax, which is enough for you to read and understand GitHub Actions workflow files.
 
-### Breakdown of test.yml
+### Breakdown of test.yml - Understanding a simple CI workflow
 
 Let's break down the `test.yml` workflow file located in `.github/workflows/test.yml`.
 
 #### Workflow Name and Trigger
 
-```yaml
-name: CI — Test & Lint
+- `name`: This defines **the name of the workflow** as it will appear in the GitHub Actions interface. In this case, it's named "CI — Test & Lint".
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-```
+  ```yaml
+  name: CI — Test & Lint
+  ```
 
-This section defines when the workflow will run. It triggers on pushes and pull requests to the `main` branch.
+  ![wf-name](./assets/images/wf-name.png)
+
+  > PS: Never mind about the error shown in your Actions tab if you haven't set up anything yet; it will go away once you implement the workflow correctly.
+
+- `on`: This section defines **when the workflow will run**. It triggers on pushes and pull requests to the `main` branch.
+
+  ```yaml
+  on:
+    push:
+      branches: [main]
+    pull_request:
+      branches: [main]
+  ```
 
 `push` events occur when code (new commits / updates to previous commits) is pushed to the repository, while `pull_request` events happen when a pull request is opened or updated.
 
 To use a `pull_request` trigger, you typically need to fork the repository, make changes in your fork, and then create a pull request back to the original repository.  
 The owner of the original repository can then review and merge your changes based on the results of the workflow triggered by the pull request.
+
+There are many other events that can trigger workflows, such as `release`, `schedule`, `workflow_dispatch` (manual trigger), etc. You can find more details in [the official GitHub documentation](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows).
 
 #### Jobs
 
@@ -154,6 +207,8 @@ To define a job in GitHub Actions, you use the `jobs` keyword followed by a uniq
     - You can choose a appropriate runner according to [the docs provided by GitHub](https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job#choosing-github-hosted-runners) based on your project's requirements and the environment you need for your workflows.
   - You can also set up self-hosted runners if you need specific hardware or software configurations not available in GitHub's hosted runners.
 - `steps`: A list of steps that make up the job. Each step can either run a script or use an action.
+
+There are many other properties you can define for jobs, such as `needs` (to specify job dependencies), `strategy` (for matrix builds), and more. You can find more details in [the official GitHub documentation](https://docs.github.com/en/actions/using-jobs/defining-jobs-in-a-workflow).
 
 #### Steps
 
@@ -199,7 +254,9 @@ steps:
     run: pytest -q
 ```
 
-## Local packaging for this project
+## Add packaging workflow (exercise)
+
+### How to package this project locally (for reference)
 
 You can quickly build a standalone executable for this small project with PyInstaller.
 
@@ -225,11 +282,19 @@ python -m venv .venv
 dir dist
 ```
 
-## Add packaging workflow (exercise)
+### Implement packaging workflow in GitHub Actions
 
-You can try implement a simple sequential workflow that first builds macOS arm64 and then Windows x64 packages in `.github/workflows/package.yml`.
+Now you can try implement a simple sequential workflow that first builds macOS arm64 and then Windows x64 packages in `.github/workflows/package.yml` in your codespace.
 
-If you have finished composing or encountered some troubles, you may see `solutions/package.yml` — this builds the two packages in sequence and uploads two artifacts (`hello-macos-arm64` and `hello-windows-x64`).
+If you have finished composing or encountered some troubles, you may see `solutions/package.yml` — this builds the two packages in sequence and uploads two artifacts (`hello-macos-arm64` and `hello-windows-x64`). Do NOT open it until you have tried your best to implement it on your own.
+
+You can now test your workflow by committing and pushing your changes to the `main` branch of your repository, or you can manually trigger the workflow from the "Actions" tab in your repository.
+
+![commit](./assets/images/commit.png)
+
+![running](./assets/images/running.png)
+
+![package-result](./assets/images/package-result.png)
 
 ## Release flow (automatic packaging and upload assets to release)
 
@@ -245,19 +310,32 @@ To allow the workflow to upload assets to a release, you need to grant it the ne
 
 1. Go to your repository on GitHub.
 2. Click on the "Settings" tab.
-3. In the left sidebar, click on "Actions" under the "Security" section.
+   ![setting-route](./assets/images/setting-route.png)
+3. In the left sidebar, click on "Actions" > "General" under the "Security" section.
 4. Scroll down to the "Workflow permissions" section.
 5. Select the option "Read and write permissions".
+   ![read-and-write](./assets/images/read-and-write.png)
 6. Click the "Save" button to apply the changes.
 
 ### Now try to create a release
 
-1. Go to the Releases section of the repository.
-2. Click on "Draft a new release".
-3. Enter a tag version (e.g., `v1.0.0`) and fill in the release title and description you like.
-4. Click on "Publish release".
+1. Go back to home page of your repo.
+   ![create-release-btn](./assets/images/create-release-btn.png)
+2. Enter a tag version (e.g., `v1.0.0`) and fill in the release title and description you like.
+   ![type-tag](./assets/images/type-tag.png)  
+   ![create-tag](./assets/images/create-tag.png)  
+   ![publish-release](./assets/images/publish-release.png)
+3. Click on "Publish release".
 
 Once the release is published, the `package-matrix.yml` workflow will automatically run (so do the workflow defined by `package.yml` that you have just implemented, but now let's focus on `package-matrix.yml`), building the packages for each OS/Python combination defined in the matrix and attaching the resulting artifacts to the release.
+
+![auto-build](./assets/images/auto-build.png)
+
+![matrix-succeed](./assets/images/matrix-succeed.png)
+
+Going back to the release page after the workflow succeeded, as you can see, the workflow has successfully built and attached multiple artifacts to the release.
+
+![release-page-final](./assets/images/release-page-final.png)
 
 ## The end
 
