@@ -3,7 +3,7 @@ name: CI — Test & Lint
 on:
   push:
     branches: [main]
-  pull_request:
+  pull_request: # Also trigger on pull requests to main as a checking mechanism
     branches: [main]
 
 jobs:
