@@ -1,4 +1,6 @@
 name: Package — Build & Upload using Matrix
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
 
 on:
   workflow_dispatch:
