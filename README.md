@@ -96,6 +96,7 @@ To store and let GitHub Actions know how to run your workflows, you need to unde
   ```yaml
   on:
     push:
+    pull_request:
   ```
 
 - Lists: List items are denoted by a hyphen and a space (`- item`). It can also be defined in-line using square brackets (`[item1, item2]`).
@@ -118,8 +119,8 @@ To store and let GitHub Actions know how to run your workflows, you need to unde
   steps:
     - name: Checkout Repo
       uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v4
+    - name: Run tests
+      run: pytest -q
   ```
 
   If we convert the above to JSON, it would look like this:
@@ -131,8 +132,8 @@ To store and let GitHub Actions know how to run your workflows, you need to unde
       "uses": "actions/checkout@v4"
     },
     {
-      "name": "Set up Python",
-      "uses": "actions/setup-python@v4"
+      "name": "Run tests",
+      "run": "pytest -q"
     }
   ]
   ```
