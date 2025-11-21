@@ -12,7 +12,7 @@ Give your new repository a name and description as you like, better make sure it
 
 Then you will be redirected to your newly created repository. Wait a moment, and you may see your repository's web page fully displayed. Click the green "Code" button, and then choose "Codespaces" > "Create codespace on main" to start coding directly in GitHub Codespaces. Do as the image below:
 
-![alt text](./assets/images/create-cs.png)
+![create-cs](./assets/images/create-cs.png)
 
 Then, you can start to explore the code and workflows directly in the online environment without any local setup.
 
